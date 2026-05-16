@@ -56,7 +56,9 @@ export default function RootLayout({
           accentColor="#002FA7"
           isFixed={true}
         />
-        {children}
+        <main className="flex-1">
+          {children}
+        </main>
       </body>
     </html>
   );

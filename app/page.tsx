@@ -1,48 +1,28 @@
 'use client';
 
-import PixelBlast from '@/components/PixelBlast';
 import Prism from '@/components/Prism';
+import Silk from '@/components/Silk';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
+    <div className="flex flex-col min-h-screen">
+      {/* Hero Section */}
       <div
         style={{
-          width: '100vw',
-          height: '100vh',
-          backgroundColor: '#000',
           position: 'relative',
+          height: '100vh',
+          width: '100%',
+          backgroundColor: '#000',
           overflow: 'hidden',
         }}
       >
-        <Prism
-          animationType="hover"
-          timeScale={0.5}
-          height={3.5}
-          baseWidth={5.5}
-          scale={3.6}
-          hueShift={0}
-          colorFrequency={1}
-          noise={0}
-          glow={1}
-        />
-        <PixelBlast
-          variant="square"
-          pixelSize={4}
+        <Silk
+          speed={6.9}
+          scale={0.6}
           color="#002FA7"
-          patternScale={2.5}
-          patternDensity={1.05}
-          pixelSizeJitter={0}
-          enableRipples
-          rippleSpeed={0.4}
-          rippleThickness={0.12}
-          rippleIntensityScale={1.5}
-          liquid={false}
-          liquidStrength={0.12}
-          liquidRadius={1.2}
-          liquidWobbleSpeed={5}
-          speed={3}
-          edgeFade={0.2}
-          transparent
+          noiseIntensity={2.9}
+          rotation={3.09}
         />
 
         <div
@@ -71,5 +51,9 @@ export default function Home() {
           </h1>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
+    </div>
   );
 }
