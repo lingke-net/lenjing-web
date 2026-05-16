@@ -4,20 +4,6 @@ import PixelBlast from '@/components/PixelBlast';
 
 export default function Home() {
   return (
-    <>
-      <style>{`
-        @font-face {
-          font-family: 'AlimamaFangYuanTi';
-          src: url('https://ziyuan.lingke.ink/fount/AlimamaFangYuanTiVF-Thin-2.ttf') format('truetype');
-          font-weight: 600;
-          font-style: normal;
-        }
-        .title-text {
-          font-family: 'AlimamaFangYuanTi', sans-serif;
-          font-weight: 600;
-        }
-      `}</style>
-
       <div
         style={{
           width: '100vw',
