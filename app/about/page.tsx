@@ -95,7 +95,7 @@ const About3 = ({
   achievementsDescription = "在游戏、内容、工具与资产四个维度持续产出高品质的数字体验。",
   achievements = [
     { label: "产品矩阵", value: "4+" },
-    { label: "全球用户", value: "100万+" },
+    { label: "全球用户", value: "10万+" },
     { label: "合作伙伴", value: "50+" },
     { label: "团队成员", value: "30+" },
   ],
