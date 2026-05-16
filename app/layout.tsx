@@ -4,7 +4,7 @@ import "./globals.css";
 import StaggeredMenu from "@/components/StaggeredMenu";
 import PageTransition from "@/components/PageTransition";
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/next"
+{/*import { Analytics } from "@vercel/analytics/next"8*/}
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,7 +46,6 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <SpeedInsights />
-        <Analytics/>
         <StaggeredMenu
           position="right"
           items={menuItems}
