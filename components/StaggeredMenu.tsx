@@ -55,6 +55,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 }: StaggeredMenuProps) => {
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
+  const pathname = usePathname();
   const panelRef = useRef<HTMLDivElement | null>(null);
   const preLayersRef = useRef<HTMLDivElement | null>(null);
   const preLayerElsRef = useRef<HTMLElement[]>([]);
@@ -386,6 +387,47 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [closeOnClickAway, open, closeMenu]);
+
+  // 监听页面切换/刷新时关闭菜单
+  useEffect(() => {
+    // 监听页面切换（路由变化）
+    const handleRouteChange = () => {
+      if (openRef.current) {
+        closeMenu();
+      }
+    };
+
+    // 监听页面刷新/关闭
+    const handleBeforeUnload = () => {
+      if (openRef.current) {
+        openRef.current = false;
+        setOpen(false);
+      }
+    };
+
+    // 监听 popstate 事件（浏览器前进/后退）
+    const handlePopState = () => {
+      if (openRef.current) {
+        closeMenu();
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [closeMenu]);
+
+  // 监听 pathname 变化来关闭菜单
+  useEffect(() => {
+    if (openRef.current) {
+      closeMenu();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   return (
     <div
