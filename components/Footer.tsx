@@ -1,6 +1,7 @@
 "use client";
 
 import { MapPin, Mail, Phone } from "lucide-react";
+import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 
@@ -34,11 +35,13 @@ export default function Footer() {
       <div className="px-10 py-12">
         {/* Logo */}
         <div className="mb-8">
+          <Link href="/">
           <img
             src="/prism-logo-h-e.webp"
             alt="Prism Horizon"
-            className="h-16 md:h-12"
+            className="h-16 md:h-12 cursor-pointer"
           />
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 mb-12">

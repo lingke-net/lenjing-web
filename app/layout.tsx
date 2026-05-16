@@ -4,7 +4,7 @@ import "./globals.css";
 import StaggeredMenu from "@/components/StaggeredMenu";
 import PageTransition from "@/components/PageTransition";
 import { SpeedInsights } from "@vercel/speed-insights/next"
-{/*import { Analytics } from "@vercel/analytics/next"8*/}
+import { Analytics } from "@vercel/analytics/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,15 +22,15 @@ export const metadata: Metadata = {
 };
 
 const menuItems = [
-  { label: '首页', ariaLabel: 'Go to home page', link: '/' },
-  { label: '产品信息', ariaLabel: 'Learn about us', link: '/product' },
-  { label: '了解我们', ariaLabel: 'View our services', link: '/about' },
-  { label: '加入我们', ariaLabel: 'Get in touch', link: '/join-us' },
-  { label: '新闻动态', ariaLabel: 'Get in touch', link: '/news' }
+  { label: '首页', ariaLabel: '回到欢迎页面', link: '/' },
+  { label: '产品信息', ariaLabel: '了解我们的产品', link: '/product' },
+  { label: '关于我们', ariaLabel: '关于我们', link: '/about' },
+  { label: '加入我们', ariaLabel: '加入我们', link: '/join-us' },
+  { label: '新闻动态', ariaLabel: '获取我司动态', link: '/news' }
 ];
 
 const socialItems = [
-  { label: 'WeCom', link: 'https://work.weixin.qq.com/kfid/kfcc27e997eb895be0b' },
+  { label: '微信', link: 'https://work.weixin.qq.com/kfid/kfcc27e997eb895be0b' },
   { label: 'GitHub', link: 'https://github.com/lingke-net' }
 ];
 
@@ -46,6 +46,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <SpeedInsights />
+        <Analytics/>
         <StaggeredMenu
           position="right"
           items={menuItems}
