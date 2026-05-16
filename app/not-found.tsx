@@ -51,6 +51,7 @@ export default function NotFound() {
         outerVignette={false}
         smooth={true}
         glitchColors={['#081c4f', '#3061e0', '#002FA7']}
+        characters="ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789"
       />
 
       <div
