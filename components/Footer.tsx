@@ -4,16 +4,22 @@ import { MapPin, Mail, Phone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 
-const FOOTER_LINKS = {
+type SocialLink = {
+  name: string;
+  url: string;
+};
+
+const FOOTER_LINKS: {
+  information: { text: string; link: string }[];
+  socialMedia: SocialLink[];
+} = {
   information: [
     { text: "关于我们", link: "/about" },
     { text: "加入我们", link: "/join-us" },
     { text: "隐私协议", link: "https://support.lingke.ink/%E9%9A%90%E7%A7%81%E5%8D%8F%E8%AE%AE" },
     { text: "产品使用服务条款", link: "https://support.lingke.ink/%E4%BA%A7%E5%93%81%E4%BD%BF%E7%94%A8%E6%9D%A1%E6%AC%BE" },
   ],
-  socialMedia: [
-    
-  ],
+  socialMedia: [],
 };
 
 const CONTACT_INFO = {
