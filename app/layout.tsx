@@ -4,7 +4,6 @@ import "./globals.css";
 import StaggeredMenu from "@/components/StaggeredMenu";
 import PageTransition from "@/components/PageTransition";
 import FooterBrandLogo from "@/components/FooterBrandLogo";
-import FooterBrandLogoWrapper from "@/components/FooterBrandLogoWrapper";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
 
