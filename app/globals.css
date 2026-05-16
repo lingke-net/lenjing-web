@@ -129,6 +129,7 @@
   html {
     @apply font-sans;
     background-color: #002FA7;
+    overscroll-behavior: none;
   }
   /* 隐藏滚动条 */
   ::-webkit-scrollbar {

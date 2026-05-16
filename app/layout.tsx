@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StaggeredMenu from "@/components/StaggeredMenu";
 import PageTransition from "@/components/PageTransition";
+import FooterBrandLogo from "@/components/FooterBrandLogo";
+import FooterBrandLogoWrapper from "@/components/FooterBrandLogoWrapper";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
 
@@ -61,11 +63,14 @@ export default function RootLayout({
           accentColor="#002FA7"
           isFixed={true}
         />
-        <main className="flex-1">
+        <main className="flex-1 relative z-[1]">
           <PageTransition>
             {children}
           </PageTransition>
+          {/* 占位区域，防止底部 Fixed 组件遮挡内容 */}
+          <div className="h-[220px] sm:h-[280px] md:h-[340px] lg:h-[420px]"></div>
         </main>
+        <FooterBrandLogo />
       </body>
     </html>
   );

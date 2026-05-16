@@ -33,7 +33,7 @@ export default function Footer() {
   return (
     <footer className="w-full bg-black border-t border-white/10">
       <div className="px-10 py-12">
-        {/* Logo */}
+        {/* Logo 
         <div className="mb-8">
           <Link href="/">
           <img
@@ -42,7 +42,7 @@ export default function Footer() {
             className="h-16 md:h-12 cursor-pointer"
           />
           </Link>
-        </div>
+        </div>*/}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 mb-12">
           {/* Newsletter Section */}
