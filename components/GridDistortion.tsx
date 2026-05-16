@@ -27,24 +27,34 @@ void main() {
   gl_FragColor = texture2D(uTexture, uv - 0.02 * offset.rg);
 }`;
 
-const GridDistortion = ({ grid = 15, mouse = 0.1, strength = 0.15, relaxation = 0.9, imageSrc, className = '' }) => {
-  const containerRef = useRef(null);
-  const sceneRef = useRef(null);
-  const rendererRef = useRef(null);
-  const cameraRef = useRef(null);
-  const planeRef = useRef(null);
-  const imageAspectRef = useRef(1);
-  const animationIdRef = useRef(null);
-  const resizeObserverRef = useRef(null);
+interface GridDistortionProps {
+  grid?: number;
+  mouse?: number;
+  strength?: number;
+  relaxation?: number;
+  imageSrc?: string;
+  className?: string;
+}
+
+const GridDistortion = ({
+  grid = 15,
+  mouse = 0.1,
+  strength = 0.15,
+  relaxation = 0.9,
+  imageSrc = '',
+  className = ''
+}: GridDistortionProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const animationIdRef = useRef<number | null>(null);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
     const container = containerRef.current;
+    let isTextureLoaded = false;
 
     const scene = new THREE.Scene();
-    sceneRef.current = scene;
-
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
@@ -52,32 +62,12 @@ const GridDistortion = ({ grid = 15, mouse = 0.1, strength = 0.15, relaxation = 
     });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
-    rendererRef.current = renderer;
 
     container.innerHTML = '';
     container.appendChild(renderer.domElement);
 
     const camera = new THREE.OrthographicCamera(0, 0, 0, 0, -1000, 1000);
     camera.position.z = 2;
-    cameraRef.current = camera;
-
-    const uniforms = {
-      time: { value: 0 },
-      resolution: { value: new THREE.Vector4() },
-      uTexture: { value: null },
-      uDataTexture: { value: null }
-    };
-
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load(imageSrc, texture => {
-      texture.minFilter = THREE.LinearFilter;
-      texture.magFilter = THREE.LinearFilter;
-      texture.wrapS = THREE.ClampToEdgeWrapping;
-      texture.wrapT = THREE.ClampToEdgeWrapping;
-      imageAspectRef.current = texture.image.width / texture.image.height;
-      uniforms.uTexture.value = texture;
-      handleResize();
-    });
 
     const size = grid;
     const data = new Float32Array(4 * size * size);
@@ -88,7 +78,13 @@ const GridDistortion = ({ grid = 15, mouse = 0.1, strength = 0.15, relaxation = 
 
     const dataTexture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.FloatType);
     dataTexture.needsUpdate = true;
-    uniforms.uDataTexture.value = dataTexture;
+
+    const uniforms = {
+      time: { value: 0 },
+      resolution: { value: new THREE.Vector4() },
+      uTexture: { value: null as THREE.Texture | null },
+      uDataTexture: { value: dataTexture }
+    };
 
     const material = new THREE.ShaderMaterial({
       side: THREE.DoubleSide,
@@ -100,8 +96,19 @@ const GridDistortion = ({ grid = 15, mouse = 0.1, strength = 0.15, relaxation = 
 
     const geometry = new THREE.PlaneGeometry(1, 1, size - 1, size - 1);
     const plane = new THREE.Mesh(geometry, material);
-    planeRef.current = plane;
     scene.add(plane);
+
+    // 加载纹理
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load(imageSrc || '', (texture) => {
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      texture.wrapS = THREE.ClampToEdgeWrapping;
+      texture.wrapT = THREE.ClampToEdgeWrapping;
+      uniforms.uTexture.value = texture;
+      isTextureLoaded = true;
+      handleResize();
+    });
 
     const handleResize = () => {
       if (!container || !renderer || !camera) return;
@@ -113,12 +120,8 @@ const GridDistortion = ({ grid = 15, mouse = 0.1, strength = 0.15, relaxation = 
       if (width === 0 || height === 0) return;
 
       const containerAspect = width / height;
-
       renderer.setSize(width, height);
-
-      if (plane) {
-        plane.scale.set(containerAspect, 1, 1);
-      }
+      plane.scale.set(containerAspect, 1, 1);
 
       const frustumHeight = 1;
       const frustumWidth = frustumHeight * containerAspect;
@@ -151,9 +154,8 @@ const GridDistortion = ({ grid = 15, mouse = 0.1, strength = 0.15, relaxation = 
       isInside: false
     };
 
-    const handleMouseMove = e => {
+    const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
-      // 检查鼠标是否在容器可见区域内
       if (
         e.clientX >= rect.left &&
         e.clientX <= rect.right &&
@@ -187,14 +189,13 @@ const GridDistortion = ({ grid = 15, mouse = 0.1, strength = 0.15, relaxation = 
 
       uniforms.time.value += 0.05;
 
-      const data = dataTexture.image.data;
       for (let i = 0; i < size * size; i++) {
         data[i * 4] *= relaxation;
         data[i * 4 + 1] *= relaxation;
       }
 
-      // 只在鼠标在容器内时才应用新的扭曲效果
-      if (mouseState.isInside) {
+      // 只在鼠标在容器内且纹理已加载时才应用扭曲效果
+      if (isTextureLoaded && mouseState.isInside) {
         const gridMouseX = size * mouseState.x;
         const gridMouseY = size * mouseState.y;
         const maxDist = size * mouse;
@@ -232,23 +233,16 @@ const GridDistortion = ({ grid = 15, mouse = 0.1, strength = 0.15, relaxation = 
       window.removeEventListener('mousemove', handleMouseMove);
       container.removeEventListener('mouseleave', handleMouseLeave);
 
-      if (renderer) {
-        renderer.dispose();
-        renderer.forceContextLoss();
-        if (container.contains(renderer.domElement)) {
-          container.removeChild(renderer.domElement);
-        }
+      renderer.dispose();
+      renderer.forceContextLoss();
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
       }
 
-      if (geometry) geometry.dispose();
-      if (material) material.dispose();
-      if (dataTexture) dataTexture.dispose();
+      geometry.dispose();
+      material.dispose();
+      dataTexture.dispose();
       if (uniforms.uTexture.value) uniforms.uTexture.value.dispose();
-
-      sceneRef.current = null;
-      rendererRef.current = null;
-      cameraRef.current = null;
-      planeRef.current = null;
     };
   }, [grid, mouse, strength, relaxation, imageSrc]);
 
