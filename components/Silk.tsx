@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { forwardRef, useRef, useMemo, useLayoutEffect } from 'react';
-import { Color } from 'three';
+import { Color, Mesh, IUniform } from 'three';
 
 const hexToNormalizedRGB = (hex: string) => {
   hex = hex.replace('#', '');
@@ -69,21 +69,31 @@ void main() {
 }
 `;
 
-const SilkPlane = forwardRef(function SilkPlane({ uniforms }, ref) {
+interface SilkPlaneProps {
+  uniforms: Record<string, IUniform<unknown>>;
+}
+
+const SilkPlane = forwardRef(function SilkPlane({ uniforms }: SilkPlaneProps, _ref: unknown) {
   const { viewport } = useThree();
+  const meshRef = useRef<Mesh>(null);
 
   useLayoutEffect(() => {
-    if (ref.current) {
-      ref.current.scale.set(viewport.width, viewport.height, 1);
+    if (meshRef.current) {
+      meshRef.current.scale.set(viewport.width, viewport.height, 1);
     }
-  }, [ref, viewport]);
+  }, [viewport]);
 
   useFrame((_, delta) => {
-    ref.current.material.uniforms.uTime.value += 0.1 * delta;
+    if (meshRef.current) {
+      const material = meshRef.current.material as { uniforms?: Record<string, IUniform<unknown>> };
+      if (material.uniforms?.uTime) {
+        (material.uniforms.uTime as IUniform<number>).value += 0.1 * delta;
+      }
+    }
   });
 
   return (
-    <mesh ref={ref}>
+    <mesh ref={meshRef}>
       <planeGeometry args={[1, 1, 1, 1]} />
       <shaderMaterial uniforms={uniforms} vertexShader={vertexShader} fragmentShader={fragmentShader} />
     </mesh>
@@ -92,8 +102,6 @@ const SilkPlane = forwardRef(function SilkPlane({ uniforms }, ref) {
 SilkPlane.displayName = 'SilkPlane';
 
 const Silk = ({ speed = 5, scale = 1, color = '#7B7481', noiseIntensity = 1.5, rotation = 0 }) => {
-  const meshRef = useRef();
-
   const uniforms = useMemo(
     () => ({
       uSpeed: { value: speed },
@@ -108,7 +116,7 @@ const Silk = ({ speed = 5, scale = 1, color = '#7B7481', noiseIntensity = 1.5, r
 
   return (
     <Canvas dpr={[1, 2]} frameloop="always">
-      <SilkPlane ref={meshRef} uniforms={uniforms} />
+      <SilkPlane uniforms={uniforms} />
     </Canvas>
   );
 };
