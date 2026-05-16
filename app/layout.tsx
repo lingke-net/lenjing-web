@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StaggeredMenu from "@/components/StaggeredMenu";
+import PageTransition from "@/components/PageTransition";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const geistSans = Geist({
@@ -59,7 +60,9 @@ export default function RootLayout({
           isFixed={true}
         />
         <main className="flex-1">
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
         </main>
       </body>
     </html>

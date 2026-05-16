@@ -1,59 +1,59 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { gsap } from 'gsap';
 
-export default function PageTransition({ children }: { children: React.ReactNode }) {
+interface PageTransitionProps {
+  children: React.ReactNode;
+}
+
+export default function PageTransition({ children }: PageTransitionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const [displayChildren, setDisplayChildren] = useState(children);
-  const isFirstRender = useRef(true);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    if (isFirstRender.current) {
-      // 首次加载：淡入
-      isFirstRender.current = false;
+    // 确保 DOM 完全渲染后再开始动画
+    requestAnimationFrame(() => {
       gsap.fromTo(
-        container,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.6, ease: 'power2.out' }
+        container.children,
+        { opacity: 0, x: 30 },
+        { opacity: 1, x: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out' }
       );
-      return;
-    }
+    });
 
-    // 页面切换：滑出当前页 + 滑入新页
-    const tl = gsap.timeline();
-    
-    // 滑出当前内容
-    tl.to(container, {
-      opacity: 0,
-      x: -50,
-      duration: 0.35,
-      ease: 'power2.in',
-      onComplete: () => {
-        // 更新内容
-        setDisplayChildren(children);
-        // 重置位置
-        gsap.set(container, { x: 50, opacity: 0 });
+    // 页面离开动画
+    const handleBeforeLeave = () => {
+      gsap.to(container, {
+        opacity: 0,
+        x: -30,
+        duration: 0.3,
+        ease: 'power2.in',
+      });
+    };
+
+    // 监听链接点击
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a');
+      if (link && !link.getAttribute('href')?.startsWith('#') && !link.getAttribute('href')?.startsWith('http') && !link.getAttribute('href')?.startsWith('mailto') && !link.getAttribute('href')?.startsWith('tel')) {
+        handleBeforeLeave();
       }
-    });
+    };
 
-    // 滑入新内容
-    tl.to(container, {
-      opacity: 1,
-      x: 0,
-      duration: 0.5,
-      ease: 'power2.out'
-    });
-  }, [pathname, children]);
+    document.addEventListener('click', handleClick);
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [pathname]);
 
   return (
-    <div ref={containerRef} className="page-transition-container">
-      {displayChildren}
+    <div ref={containerRef}>
+      {children}
     </div>
   );
 }
