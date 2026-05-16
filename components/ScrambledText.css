@@ -1,0 +1,15 @@
+.text-block {
+  margin: 0;
+  max-width: 800px;
+  font-family: 'AlimamaFangYuanTi', sans-serif;
+  font-size: clamp(16px, 3vw, 24px);
+  color: #fff;
+  text-align: center;
+  line-height: 1.6;
+  user-select: none;
+}
+
+.char {
+  will-change: transform;
+  display: inline-block;
+}
