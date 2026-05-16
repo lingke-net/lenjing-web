@@ -1,6 +1,7 @@
 'use client';
 
 import PixelBlast from '@/components/PixelBlast';
+import Prism from '@/components/Prism';
 
 export default function Home() {
   return (
@@ -13,6 +14,17 @@ export default function Home() {
           overflow: 'hidden',
         }}
       >
+        <Prism
+          animationType="hover"
+          timeScale={0.5}
+          height={3.5}
+          baseWidth={5.5}
+          scale={3.6}
+          hueShift={0}
+          colorFrequency={1}
+          noise={0}
+          glow={1}
+        />
         <PixelBlast
           variant="square"
           pixelSize={4}
@@ -59,6 +71,5 @@ export default function Home() {
           </h1>
         </div>
       </div>
-    </>
   );
 }
