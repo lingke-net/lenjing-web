@@ -4,6 +4,8 @@ import "./globals.css";
 import StaggeredMenu from "@/components/StaggeredMenu";
 import PageTransition from "@/components/PageTransition";
 import FooterBrandLogo from "@/components/FooterBrandLogo";
+import ConditionalWrapper from "@/components/ConditionalWrapper";
+import { Toaster } from "@/components/ui/sonner";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
 
@@ -27,7 +29,8 @@ const menuItems = [
   { label: '产品信息', ariaLabel: '了解我们的产品', link: '/product' },
   { label: '关于我们', ariaLabel: '关于我们', link: '/about' },
   { label: '加入我们', ariaLabel: '加入我们', link: '/join-us' },
-  { label: '新闻动态', ariaLabel: '获取我司动态', link: '/news' }
+  { label: '新闻动态', ariaLabel: '获取我司动态', link: '/news' },
+  { label: '登录/注册', ariaLabel: '登录/注册', link: '/account/login' },
 ];
 
 const socialItems = [
@@ -55,21 +58,26 @@ export default function RootLayout({
           displaySocials={true}
           displayItemNumbering={true}
           menuButtonColor="#fff"
-          openMenuButtonColor="#fff"
+          openMenuButtonColor="#000"
           changeMenuColorOnOpen={true}
-          colors={['#B497CF', '#5227FF']}
+          colors={['#8465ffff', '#5227FF']}
           logoUrl="/prism-logo-h-e.webp"
-          accentColor="#002FA7"
+          accentColor="#5227FF"
           isFixed={true}
         />
         <main className="flex-1 relative z-[1]">
           <PageTransition>
             {children}
           </PageTransition>
-          {/* 占位区域，防止底部 Fixed 组件遮挡内容 */}
-          <div className="h-[220px] sm:h-[280px] md:h-[340px] lg:h-[420px]"></div>
+          <ConditionalWrapper>
+            {/* 占位区域，防止底部 Fixed 组件遮挡内容 */}
+            <div className="h-[220px] sm:h-[280px] md:h-[340px] lg:h-[420px]"></div>
+          </ConditionalWrapper>
         </main>
-        <FooterBrandLogo />
+        <ConditionalWrapper>
+          <FooterBrandLogo />
+        </ConditionalWrapper>
+        <Toaster />
       </body>
     </html>
   );

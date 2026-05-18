@@ -38,7 +38,7 @@ export default function Footer() {
           <Link href="/">
           <img
             src="/prism-logo-h-e.webp"
-            alt="Prism Horizon"
+            alt="Prism Vision"
             className="h-16 md:h-12 cursor-pointer"
           />
           </Link>
@@ -49,7 +49,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-2xl font-semibold text-white">一束光，万千世界。</h3>
             <p className="text-sm text-white/60">
-            棱镜视界（Lenjing Prism Horizon）是深圳瓴克网络科技有限公司旗下独立品牌，总部位于深圳瓴克总部办公区P1。我们是一家聚焦文化传媒、游戏发行运营、创意软件及数字资产开发的综合性数字创意企业。
+            棱镜视界（Prism Vision）是深圳瓴克网络科技有限公司旗下独立品牌，总部位于深圳瓴克总部办公区P1。我们是一家聚焦文化传媒、游戏发行运营、创意软件及数字资产开发的综合性数字创意企业。
             以“折射多元视角，创造无限世界”为核心理念，棱镜视界致力于将前沿技术与艺术表达相融合，在游戏、内容、工具与资产四个维度持续产出高品质的数字体验。我们相信，每一个视角都蕴藏着改变世界的力量。透过棱镜，看见不同
             </p>
           </div>
@@ -120,7 +120,7 @@ export default function Footer() {
           <div className="basis-10">
             <img
               src="/prism-logo-i.webp"
-              alt="Logo"
+              alt="Prism Vision"
               className="h-10 opacity-50"
             />
           </div>
@@ -130,7 +130,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="flex flex-wrap items-center justify-between gap-4">
           <p className="text-xs text-white/40">
-            © {new Date().getFullYear()} Lenjing Prism Horizon. All rights reserved. | 瓴克网络 旗下企业
+            © {new Date().getFullYear()} Prism Vision. All rights reserved. | 瓴克网络 旗下企业
           </p>
           <p className="text-xs text-white/40">
             LingkeWeb.Corn V3.0.1

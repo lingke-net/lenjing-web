@@ -3,6 +3,8 @@
 import Prism from '@/components/Prism';
 import Silk from '@/components/Silk';
 import Footer from '@/components/Footer';
+  
+import PixelBlast from '@/components/PixelBlast';
 
 export default function Home() {
   return (
@@ -17,12 +19,31 @@ export default function Home() {
           overflow: 'hidden',
         }}
       >
-        <Silk
+        {/*<Silk
           speed={6.9}
           scale={0.6}
           color="#002FA7"
           noiseIntensity={2.9}
           rotation={3.09}
+        />*/}
+        <PixelBlast
+          variant="square"
+          pixelSize={3}
+          color="#2659d8"
+          patternScale={5.5}
+          patternDensity={1.45}
+          pixelSizeJitter={1.15}
+          enableRipples
+          rippleSpeed={0.4}
+          rippleThickness={0.12}
+          rippleIntensityScale={1.5}
+          liquid={false}
+          liquidStrength={0.12}
+          liquidRadius={1.2}
+          liquidWobbleSpeed={5}
+          speed={0.7}
+          edgeFade={0}
+          transparent
         />
 
         <div

@@ -6,6 +6,9 @@ import { usePathname } from 'next/navigation';
 import { gsap } from 'gsap';
 import './StaggeredMenu.css';
 
+import { ButtonGroup } from "@/components/ui/button-group";
+import { Button } from "@/components/ui/button";
+
 export interface StaggeredMenuItem {
   label: string;
   ariaLabel: string;
