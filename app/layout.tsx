@@ -25,10 +25,10 @@ export const metadata: Metadata = {
 };
 
 const menuItems = [
-  { label: '首页', ariaLabel: '回到欢迎页面', link: '/' },
+  { label: 'Home', ariaLabel: '回到欢迎页面', link: '/' },
   { label: '产品信息', ariaLabel: '了解我们的产品', link: '/product' },
-  { label: 'AboutUS', ariaLabel: '关于我们', link: '/about' },
-  { label: 'JoinUS', ariaLabel: '加入我们', link: '/join-us' },
+  { label: 'About', ariaLabel: '关于我们', link: '/about' },
+  { label: 'Join', ariaLabel: '加入我们', link: '/join-us' },
   { label: 'News', ariaLabel: '获取我司最新动态', link: '/news' },
   { label: '通行证', ariaLabel: '登录/注册/管理通行证', link: '/account/login' },
 ];
