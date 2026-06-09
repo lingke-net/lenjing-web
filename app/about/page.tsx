@@ -156,25 +156,18 @@ const About3 = ({
               </div>
             </div>
             {companies && (
-              <div className="py-10">
-                {/*<Marquee>
-                  <MarqueeContent speed={40}>
-                    {companies.map((company, idx) => (
-                      <MarqueeItem
-                        key={company.src + idx}
-                        className="mx-8 flex items-center"
-                      >
-                        <img
-                          src={company.src}
-                          alt={company.alt}
-                          className="h-7 w-auto md:h-8 dark:invert"
-                        />
-                      </MarqueeItem>
-                    ))}
-                  </MarqueeContent>
-                  <MarqueeFade side="left" />
-                  <MarqueeFade side="right" />
-                </Marquee>*/}
+              <div className="py-10 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
+                <div className="flex gap-16 animate-marquee" style={{ width: 'max-content' }}>
+                  {[...companies, ...companies].map((company, idx) => (
+                    <div key={`${company.src}-${idx}`} className="flex items-center shrink-0">
+                      <img
+                        src={company.src}
+                        alt={company.alt}
+                        className="h-7 w-auto md:h-8 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
             <div className="relative overflow-hidden rounded-xl bg-gray-900/80 border border-gray-800 p-7 md:p-16">

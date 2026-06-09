@@ -331,6 +331,22 @@
   opacity: var(--sm-num-opacity, 0);
 }
 
+.sm-panel-item--active {
+  color: var(--sm-accent, #5227ff);
+}
+
+.sm-panel-item--active::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 1.2em;
+  background: var(--sm-accent, #5227ff);
+  border-radius: 2px;
+}
+
 @media (max-width: 1024px) {
   .staggered-menu-panel {
     width: 100%;
